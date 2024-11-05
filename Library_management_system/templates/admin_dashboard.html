@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: "Arial", sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Header and Title */
+        h1 {
+            color: #007bff;
+            font-size: 2.2em;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        /* Button Styles */
+        a {
+            display: inline-block;
+            margin: 8px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+            transform: scale(1.06);
+            box-shadow: 0 6px 12px rgba(0, 86, 179, 0.4);
+        }
+
+        /* Sections Container */
+        .sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 30px;
+        }
+
+        /* Section Styles */
+        .section {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .section h1 {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* Book Styles */
+        .book {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 12px;
+            margin-top: 10px;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .book:hover {
+            background-color: #e9ecef;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .book h2 {
+            color: #555;
+            margin: 0;
+            font-size: 1em;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Library Management System</h1>
+    <h1>Admin Dashboard</h1>
+    <a href="/admin_search">Search</a>
+    <a href="/logout">Log out</a>
+    <a href="/section_create">Create Section</a>
+    <a href="/section_delete">Delete Section</a>
+    <a href="/section_edit">Edit Section</a>
+    <a href="/book_create">Create Book</a>
+    <a href="/book_delete">Delete Book</a>
+    <a href="/book_edit">Edit Book</a>
+    <a href="/admin_requests">View Requests</a>
+    <a href="/available_books">Available Books</a>
+    <a href="/feedback_list">Feedbacks</a>
+
+    <div class="sections">
+        {% for section in sections %}
+        <div class="section">
+            <h1>{{ section.section_name }}</h1>
+            {% for book in section.section_books %}
+            <div class="book">
+                <h2>{{ book.book_name }}</h2>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
+

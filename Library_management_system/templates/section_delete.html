@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section Delete</title>
+    <style>
+        /* Basic Reset and Full Height */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #3a6073, #3a4750); /* Gradient background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        /* Main Heading */
+        h2 {
+            margin: 20px 0;
+            text-align: center;
+            font-size: 24px;
+            color: #ffffff;
+        }
+
+        /* Form Container */
+        .section-container {
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent background for form */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            width: 300px;
+            margin: 10px;
+            text-align: center;
+        }
+
+        /* Button Style */
+        button {
+            background-color: #ff4d4d; /* Red color for delete */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #ff1a1a; /* Darker red on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .section-container {
+                width: 90%; /* Full width on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    {% for section in sections %}
+    <div class="section-container">
+        <h2>{{section.section_name}}</h2>
+        <form method="post">
+            <input type="number" hidden value="{{section.section_id}}" readonly name="section_id" id="section_id">
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+    {% endfor %}
+</body>
+</html>

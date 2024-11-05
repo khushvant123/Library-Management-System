@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        body {
+            background-color: #e9ecef;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 1.75em;
+        }
+
+        ul {
+            padding-left: 0;
+            list-style-type: none;
+        }
+
+        li {
+            background-color: #f8f9fa;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            color: #555;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        li:hover {
+            background-color: #e9ecef;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Button Styles */
+        .btn {
+            border-radius: 5px;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            padding: 10px 15px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #212529;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .book-info {
+            padding-left: 15px;
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        .return-date {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        /* Form and Input Styles */
+        .form-control {
+            border-radius: 5px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .feedback-form {
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .alert {
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        .completed-book {
+            background-color: #d4edda;
+            padding: 15px;
+            border-radius: 8px;
+            color: #155724;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Library Management System</h1>
+        <a href="/logout" class="btn btn-danger">Log out</a>
+        <a href="/user_search" class="btn btn-primary">Search</a>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h2>Available Books</h2>
+                <ul>
+                    {% for section in sections %}
+                    <li>
+                        <strong>Section - {{ section.section_name }}</strong>
+                        <ul>
+                            {% for book in section.books %}
+                            <li>
+                                <div class="book-info">
+                                    <strong>{{ book.book_name }}</strong> by {{ book.book_author_name }}
+                                    <form action="{{ url_for('book_request') }}" method="POST" class="mt-2">
+                                        <input type="hidden" name="book_id" value="{{ book.book_id }}">
+                                        <input type="hidden" name="section_id" value="{{ section.section_id }}">
+                                        <div class="form-group">
+                                            <label for="days_required">Days Required:</label>
+                                            <input type="number" id="days_required" name="days_required" min="1"
+                                                required class="form-control">
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Request</button>
+                                    </form>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="col-md-6">
+                <h2>Requested Books</h2>
+                <ul>
+                    {% for request in user_requests %}
+                    <li>
+                        <strong>{{ Book.query.get(request.book_id).book_name }}</strong> by {{
+                        Book.query.get(request.book_id).book_author_name }} - {{ request.days_required }} days required
+                        {% if request.status == 'pending' %}
+                        <span class="text-warning">Pending</span>
+                        <form action="{{ url_for('cancel_request', request_id=request.id) }}" method="POST">
+                            <button type="submit" class="btn btn-warning">Cancel</button>
+                        </form>
+                        {% elif request.status == 'accepted' %}
+                        <span class="text-success">Approved</span>
+                        <a href="{{ url_for('view_book', book_id=request.book_id) }}" class="btn btn-primary"
+                            target="_blank">View</a>
+                        <form action="{{ url_for('return_book', request_id=request.id) }}" method="POST"
+                            class="mt-2">
+                            <button type="submit" class="btn btn-info">Return</button>
+                        </form>
+                        <div class="return-date">Return date - {{ request.return_date }}</div>
+                        {% elif request.status == 'rejected' %}
+                        <span class="text-danger">Rejected</span>
+                        <form action="{{ url_for('cancel_request', request_id=request.id) }}" method="POST">
+                            <button type="submit" class="btn btn-danger">Cancel</button>
+                        </form>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% if user_requests_count >= MAX_BOOK_REQUESTS %}
+                <p class="text-danger alert">You have reached the maximum limit of book requests ({{ MAX_BOOK_REQUESTS }}).</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <h2 class="mt-4">Completed Books</h2>
+        <ul>
+            {% for completed_book in completed_books %}
+            <li class="completed-book">
+                <strong>{{ Book.query.get(completed_book.book_id).book_name }}</strong> by {{
+                Book.query.get(completed_book.book_id).book_author_name }}
+                {% if feedback_given.get(completed_book.book_id) %}
+                <div class="mt-2">Thanks for giving feedback</div>
+                {% else %}
+                <form action="{{ url_for('feedback', book_id=completed_book.book_id) }}" method="POST"
+                    class="feedback-form mt-2">
+                    <input type="hidden" name="book_id" value="{{ completed_book.book_id }}">
+                    <div class="form-group">
+                        <label for="feedback_text">Feedback:</label>
+                        <textarea id="feedback_text" name="feedback_text" rows="3" required
+                            class="form-control"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Give Feedback</button>
+                </form>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

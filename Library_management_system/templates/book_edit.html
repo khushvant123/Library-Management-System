@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Edit</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            background-color: #f4f6f9; /* Soft background color */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header */
+        header {
+            background-color: #34495e; /* Deep blue-gray for header */
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 2em;
+            border-bottom: 3px solid #2c3e50; /* Slightly darker border */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        }
+
+        .title-head {
+            font-weight: 600;
+        }
+
+        /* Form Container */
+        .login {
+            background-color: white; /* White background for form */
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Deep shadow */
+            border: 1px solid #e0e0e0; /* Light border */
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        /* Form Fields */
+        .book {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .book input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            background-color: #f9f9f9;
+        }
+
+        .book input[type="text"]:focus {
+            border-color: #34495e; /* Border changes on focus */
+            background-color: #fff;
+        }
+
+        .book label {
+            font-size: 14px;
+            color: #666;
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: white;
+            padding: 0 5px;
+        }
+
+        /* Checkbox Groups */
+        .checkbox-group {
+            margin: 25px 0;
+        }
+
+        .checkbox-group label {
+            margin-right: 10px;
+            font-size: 14px;
+            color: #34495e; /* Checkbox labels color */
+            font-weight: bold;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 8px;
+        }
+
+        /* Button */
+        button {
+            background-color: #34495e;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #2c3e50;
+            transform: translateY(-2px); /* Slight lift on hover */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="title-head">Library Management System</div>
+    </header>
+
+    <div class="login">
+        <h2>Book Edit</h2>
+
+        {% for book in books %}
+        <form method="post">
+            <div class="book">
+                <input type="text" name="book_name" value="{{ book.book_name }}" required="">
+                <label>Book Name</label>
+            </div>
+            <div class="book">
+                <input type="text" name="book_content" value="{{ book.book_content }}" required="">
+                <label>Content Link</label>
+            </div>
+            <div class="book">
+                <input type="text" name="book_author_name" value="{{ book.book_author_name }}" required="">
+                <label>Author Name</label>
+            </div>
+            <input type="hidden" name="book_id" value="{{ book.book_id }}">
+
+            <div class="checkbox-group">
+                <h4>Current Sections:</h4>
+                {% for section in book.book_sections %}
+                <label for="{{section.section_id}}">
+                    <input type="checkbox" name="section_ids" id="{{section.section_id}}" value="{{section.section_id}}" checked>
+                    {{section.section_name}}
+                </label>
+                {% endfor %}
+            </div>
+
+            <div class="checkbox-group">
+                <h4>Available Sections:</h4>
+                {% for section in sections_available %}
+                <label for="{{section.section_id}}">
+                    <input type="checkbox" name="new_sections" id="{{section.section_id}}" value="{{section.section_id}}">
+                    {{section.section_name}}
+                </label>
+                {% endfor %}
+            </div>
+
+            <div class="form-footer">
+                <button type="submit">Edit</button>
+            </div>
+        </form>
+        {% endfor %}
+    </div>
+</body>
+</html>

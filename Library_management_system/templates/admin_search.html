@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Search</title>
+    <style>
+      /* General body styling */
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f7f9fc;
+          padding: 40px;
+      }
+
+      h1 {
+          color: #333;
+          font-size: 2em;
+          text-align: center;
+          margin-bottom: 30px;
+      }
+
+      /* Form styling */
+      form {
+          max-width: 500px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: #ffffff;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      label {
+          font-weight: bold;
+          color: #555;
+      }
+
+      input[type="text"], input[type="radio"] {
+          width: 100%;
+          padding: 10px;
+          margin-top: 5px;
+          margin-bottom: 15px;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+      }
+
+      /* Radio buttons styling */
+      input[type="radio"] {
+          width: auto;
+          margin-right: 10px;
+      }
+
+      /* Submit button styling */
+      button[type="submit"] {
+          width: 100%;
+          padding: 10px;
+          background-color: #007bff;
+          border: none;
+          color: #fff;
+          font-size: 1em;
+          font-weight: bold;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+      }
+
+      button[type="submit"]:hover {
+          background-color: #0056b3;
+      }
+
+      /* List styling */
+      ul {
+          max-width: 500px;
+          margin: 30px auto;
+          padding: 0;
+          list-style: none;
+      }
+
+      ul li {
+          background-color: #e9ecef;
+          padding: 10px;
+          border-radius: 4px;
+          margin-bottom: 10px;
+          font-weight: bold;
+      }
+
+      ul li p {
+          margin: 5px 0;
+          color: #6c757d;
+      }
+
+      /* Back to Home button styling */
+      .btn-primary {
+          display: block;
+          max-width: 500px;
+          margin: 20px auto;
+          padding: 10px;
+          font-weight: bold;
+          text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Search</h1>
+
+    <form method="post">
+        <div>
+            <label for="section_name">Section name</label>
+            <input type="text" id="section_name" name="section_name" placeholder="Enter section name">
+        </div>
+        <div>
+            <label for="book_name">Book name</label>
+            <input type="text" id="book_name" name="book_name" placeholder="Enter book name">
+        </div>
+        <div>
+            <input type="radio" id="search_books" name="flexRadioDefault" value="book" checked>
+            <label for="search_books">Search Books</label>
+        </div>
+        <div>
+            <input type="radio" id="search_sections" name="flexRadioDefault" value="section">
+            <label for="search_sections">Search Sections</label>
+        </div>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if books %}
+        <ul>
+            {% for book in books %}
+                <li>{{ book.book_name }}
+                    {% for section in book.book_sections %}
+                        <p>Section: {{section.section_name}}</p>
+                    {% endfor %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if sections %}
+        <ul>
+            {% for section in sections %}
+                <li>{{ section.section_name }}
+                    {% for book in section.section_books %}
+                        <p>Book: {{book.book_name}}</p>
+                    {% endfor %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <a href="{{ url_for('home') }}" class="btn btn-primary">Back to Home</a>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>

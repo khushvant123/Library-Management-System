@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login Form</title>
+
+    <style>
+        /* Base Styles */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: "Montserrat", sans-serif;
+            background: linear-gradient(to bottom right, #141e30, #243b55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Header Styles */
+        header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background-color: rgba(11, 18, 31, 0.9);
+            padding: 10px 3%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: antiquewhite;
+        }
+
+        .title-head {
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #f8f9fa;
+        }
+
+        .nav_links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav_links li a {
+            font-weight: 500;
+            color: antiquewhite;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav_links li a:hover {
+            color: aqua;
+        }
+
+        /* Login Box */
+        .login {
+            width: 400px;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.7);
+            text-align: center;
+            color: #fff;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .login h2 {
+            margin-bottom: 30px;
+            font-size: 24px;
+            color: #03e9f4;
+        }
+
+        /* Input Fields */
+        .login .user {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .login .user input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: #fff;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #03e9f4;
+            outline: none;
+        }
+
+        .login .user label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 16px;
+            color: #999;
+            pointer-events: none;
+            transition: 0.5s;
+        }
+
+        /* Label animation on focus */
+        .login .user input:focus ~ label,
+        .login .user input:valid ~ label {
+            top: -20px;
+            font-size: 12px;
+            color: #03e9f4;
+        }
+
+        /* Submit Button */
+        .login button {
+            width: 100%;
+            padding: 12px;
+            background: #03e9f4;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .login button:hover {
+            background: #039bcf;
+            transform: translateY(-2px);
+        }
+
+        /* Error Message */
+        .login .error {
+            margin-top: 15px;
+            color: red;
+            font-size: 14px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="title-head">Library Management System</div>
+        <nav>
+            <ul class="nav_links">
+                <li><a href="/user_login">User</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="login">
+        <h2>Admin Login</h2>
+        <form method="post">
+            <div class="user">
+                <input type="text" name="admin_email" required="">
+                <label>Username</label>
+            </div>
+            <div class="user">
+                <input type="password" name="admin_password" required="">
+                <label>Password</label>
+            </div>
+            <button type="submit">Submit</button>
+            <h5 class="error">{% if error %} {{error}} {% endif %}</h5>
+        </form>
+    </div>
+</body>
+</html>

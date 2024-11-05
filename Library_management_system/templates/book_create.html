@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Create</title>
+    <style>
+        /* General Reset and Body */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column; /* Stack header and form vertically */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f4f8; /* Light grey background for better contrast */
+            color: #333;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 20px;
+            color: #fff;
+            background-color: #007bff; /* Header background color */
+            width: 100%; /* Full width */
+            border-radius: 10px; /* Rounded corners */
+            margin-bottom: 20px; /* Space below header */
+        }
+
+        .title-head {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        /* Form Container */
+        .login {
+            background-color: #ffffff; /* White background for the form */
+            padding: 30px;
+            width: 100%;
+            max-width: 500px; /* Maximum width for the form */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+            transition: transform 0.3s ease;
+            position: relative; /* Relative positioning for hover effect */
+        }
+
+        .login:hover {
+            transform: translateY(-5px); /* Hover effect */
+        }
+
+        h2 {
+            font-size: 1.8em; /* Size of the form title */
+            font-weight: bold;
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px; /* Space below title */
+        }
+
+        /* Form Fields */
+        .book {
+            position: relative; /* Position for label animation */
+            margin-bottom: 25px; /* Space below each input */
+        }
+
+        .book input[type="text"] {
+            width: 100%; /* Full width for inputs */
+            padding: 12px; /* Padding inside input */
+            font-size: 1em; /* Font size for input text */
+            border: 1px solid #ccc; /* Border color */
+            border-radius: 5px; /* Rounded corners for inputs */
+            outline: none; /* Remove default outline */
+            transition: border 0.3s ease; /* Transition for border */
+            background-color: #f1f3f5; /* Light background for inputs */
+        }
+
+        .book input[type="text"]:focus {
+            border-color: #007bff; /* Border color on focus */
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Shadow on focus */
+        }
+
+        .book label {
+            position: absolute; /* Positioning for floating labels */
+            left: 12px; /* Left padding */
+            top: 12px; /* Top padding */
+            color: #aaa; /* Default label color */
+            font-size: 1em; /* Label font size */
+            pointer-events: none; /* Prevent interaction with label */
+            transition: all 0.3s ease; /* Transition for label movement */
+        }
+
+        .book input[type="text"]:focus + label,
+        .book input[type="text"]:not(:placeholder-shown) + label {
+            top: -10px; /* Move label up when focused */
+            left: 10px; /* Slightly move label left */
+            font-size: 0.85em; /* Smaller label font size */
+            color: #007bff; /* Label color on focus */
+        }
+
+        /* Checkbox Styles */
+        .checkbox-container {
+            margin-top: 20px; /* Space above checkboxes */
+        }
+
+        label[for] {
+            font-size: 1em; /* Font size for checkbox labels */
+            margin: 10px 0; /* Margin for spacing */
+            display: block; /* Block display */
+            text-align: left; /* Align left */
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px; /* Space between checkbox and label */
+            transform: scale(1.2); /* Larger checkboxes */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: transform 0.2s; /* Transition for hover */
+        }
+
+        input[type="checkbox"]:hover {
+            transform: scale(1.25); /* Slightly increase size on hover */
+        }
+
+        /* Color Styles for Each Checkbox */
+        .section-1 { color: #007bff; }  /* Blue */
+        .section-2 { color: #28a745; }  /* Green */
+        .section-3 { color: #dc3545; }  /* Red */
+        .section-4 { color: #ffc107; }  /* Yellow */
+        .section-5 { color: #17a2b8; }  /* Cyan */
+
+        /* Submit Button */
+        button[type="submit"] {
+            width: 100%; /* Full width for submit button */
+            padding: 12px; /* Padding inside button */
+            background-color: #007bff; /* Button background color */
+            color: #fff; /* Button text color */
+            font-size: 1.1em; /* Font size for button text */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor */
+            font-weight: bold; /* Bold text */
+            transition: background-color 0.3s ease, transform 0.2s; /* Transition for button */
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3; /* Darker button color on hover */
+            transform: translateY(-2px); /* Slight lift effect on hover */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="title-head">Library Management System</div>
+    </header>
+    <div class="login">
+        <h2>Book Create</h2>
+        <form method="post">
+            <div class="book">
+                <input type="text" name="book_name" required="" placeholder=" ">
+                <label>Book Name</label>
+            </div>
+            <div class="book">
+                <input type="text" name="book_content" required="" placeholder=" ">
+                <label>Content Link</label>
+            </div>
+            <div class="book">
+                <input type="text" name="book_author_name" required="" placeholder=" ">
+                <label>Author Name</label>
+            </div>
+            <div class="checkbox-container">
+                {% for section in sections %}
+                <div class="book">
+                    <input type="checkbox" name="section_ids" id="{{section.section_id}}" value="{{section.section_id}}" class="section-{{ loop.index }}">
+                    <label for="{{section.section_id}}" class="section-{{ loop.index }}">{{section.section_name}}</label>
+                </div>
+                {% endfor %}
+            </div>
+            <button type="submit">
+                Create
+            </button>
+        </form>
+    </div>
+</body>
+</html>

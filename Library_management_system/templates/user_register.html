@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login Form</title>
+
+    <style>
+        /* Full height and background styling */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #141e30, #243b55);
+        }
+
+        /* Header styling */
+        header {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 10px 3%;
+            background-color: #0b121f;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .title-head {
+            cursor: pointer;
+            color: antiquewhite;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav_links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav_links li {
+            display: inline-block;
+            padding: 0 10px;
+        }
+
+        .nav_links li a {
+            font-family: "Montserrat", sans-serif;
+            font-weight: 500;
+            font-size: 16px;
+            color: antiquewhite;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav_links li a:hover {
+            color: aqua; /* Color change on hover */
+        }
+
+        /* Login form styling */
+        .login {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 350px;
+            padding: 40px;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8); /* Darker background for form */
+            box-sizing: border-box;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            color: #fff; /* White text color */
+        }
+
+        .login h2 {
+            margin: 0 0 30px;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .login .user {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .login .user input {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            border: none;
+            border-bottom: 1px solid #fff;
+            outline: none;
+            background: transparent;
+            transition: border-color 0.3s;
+        }
+
+        .login .user input:focus {
+            border-bottom: 1px solid #03e9f4; /* Highlight border on focus */
+        }
+
+        .login .user label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            transition: opacity 0.3s;
+        }
+
+        .login .user input:focus + label,
+        .login .user input:valid + label {
+            opacity: 0; /* Hide label when input is focused or valid */
+        }
+
+        /* Submit button styling */
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #03e9f4; /* Bright button color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #03b9e6; /* Darker shade on hover */
+            transform: translateY(-2px); /* Lift effect on hover */
+        }
+
+        /* Error message styling */
+        .login .error {
+            color: red; /* Error text color */
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .login {
+                width: 90%; /* Full width on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="title-head">Library Management System</div>
+        <nav>
+            <ul class="nav_links">
+                <li><a href="/admin_login">Admin</a></li>
+                <li><a href="/user_login">User</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="login">
+        <h2>Register</h2>
+        <form method="post">
+            <div class="user">
+                <input type="text" name="user_name" required="">
+                <label>Name</label>
+            </div>
+            <div class="user">
+                <input type="text" name="user_email" required="">
+                <label>Email ID</label>
+            </div>
+            <div class="user">
+                <input type="password" name="user_password" required="">
+                <label>Password</label>
+            </div>
+            <button type="submit">Sign Up</button>
+            <h5 class="error">{% if error %}{{error}}{% endif %}</h5>
+        </form>
+    </div>
+</body>
+</html>

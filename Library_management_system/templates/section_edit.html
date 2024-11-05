@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section Edit</title>
+    <style>
+        /* Basic Reset and Full Height */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #4a90e2, #9013fe); /* Gradient background */
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+        }
+
+        /* Error Message Styling */
+        p {
+            color: #ff4d4d; /* Red color for error messages */
+            font-weight: bold;
+            margin-bottom: 20px; /* Spacing below error message */
+        }
+
+        /* Form Container */
+        form {
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            width: 400px;
+            margin: 10px 0;
+        }
+
+        /* Input Fields */
+        .section {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .section input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            transition: background 0.3s;
+        }
+
+        .section input:focus {
+            background: rgba(255, 255, 255, 0.2); /* Change background on focus */
+        }
+
+        /* Label Styling */
+        .section label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #fff;
+            transition: all 0.3s;
+            pointer-events: none; /* Allow clicks on input */
+        }
+
+        /* Move label up when input is focused or has a value */
+        .section input:focus + label,
+        .section input:not(:placeholder-shown) + label {
+            top: -10px; /* Position above the input */
+            left: 10px;
+            font-size: 14px; /* Smaller font for the label */
+            color: #03e9f4; /* Change label color on focus */
+        }
+
+        /* Button Style */
+        button {
+            background-color: #03e9f4; /* Bright button color */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #03b9e6; /* Darker shade on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            form {
+                width: 90%; /* Full width on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    {% if error %}
+    <p>{{error}}</p>
+    {% endif %}
+    {% for section in sections %}
+    <form method="post">
+        <div class="section">
+            <input type="text" name="section_name" id="section_name" required="" value="{{section.section_name}}" placeholder=" ">
+            <label for="section_name">Name</label>
+        </div>
+        <div class="section">
+            <input type="date" name="section_date_created" id="section_date_created" required="" value="{{section.section_date_created}}">
+            <label for="section_date_created">Date Created</label>
+        </div>
+        <div class="section">
+            <input type="text" name="section_description" id="section_description" required="" value="{{section.section_description}}" placeholder=" ">
+            <label for="section_description">Description</label>
+        </div>
+        <div class="section">
+            <input type="number" name="section_max_books" id="section_max_books" required="" value="{{section.section_max_books}}" placeholder=" ">
+            <label for="section_max_books">Maximum Books</label>
+        </div>
+        <input type="text" name="section_id" id="section_id" hidden value="{{section.section_id}}">
+        <button type="submit">Edit</button>
+    </form>
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 1.8em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 0.95em;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fb;
+        }
+
+        /* Button Styles */
+        button {
+            padding: 8px 14px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button[type="submit"] {
+            margin-right: 5px;
+        }
+
+        /* Button Colors */
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        form:first-child button {
+            background-color: #28a745;
+        }
+
+        form:first-child button:hover {
+            background-color: #218838;
+        }
+
+        form:nth-child(2) button {
+            background-color: #dc3545;
+        }
+
+        form:nth-child(2) button:hover {
+            background-color: #c82333;
+        }
+
+        /* Status Cell */
+        td:nth-child(7) {
+            font-weight: bold;
+            color: #28a745;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Pending Requests</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>User Email</th>
+                <th>Book Name</th>
+                <th>Author Name</th>
+                <th>Section ID</th>
+                <th>Book ID</th>
+                <th>Days Required</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in requests %}
+            <tr>
+                <td>{{ request.user_email }}</td>
+                <td>{{ request.book.book_name if request.book else '' }}</td>
+                <td>{{ request.book.book_author_name if request.book else '' }}</td>
+                <td>{{ request.section_id }}</td>
+                <td>{{ request.book_id }}</td>
+                <td>{{ request.days_required }}</td>
+                <td>
+                    <form action="{{ url_for('accept_request', request_id=request.id) }}" method="post">
+                        <button type="submit">Accept</button>
+                    </form>
+                    <form action="{{ url_for('reject_request', request_id=request.id) }}" method="post">
+                        <button type="submit">Reject</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h1>Approved Books</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>User Email</th>
+                <th>Book Name</th>
+                <th>Author Name</th>
+                <th>Section ID</th>
+                <th>Book ID</th>
+                <th>Days Required</th>
+                <th>Status</th>
+                <th>Action</th> 
+            </tr>
+        </thead>
+        <tbody>
+            {% for approved_book in approved_books %}
+            <tr>
+                <td>{{ approved_book.user_email }}</td>
+                <td>{{ approved_book.book.book_name if approved_book.book else '' }}</td>
+                <td>{{ approved_book.book.book_author_name if approved_book.book else '' }}</td>
+                <td>{{ approved_book.section_id }}</td>
+                <td>{{ approved_book.book_id }}</td>
+                <td>{{ approved_book.days_required }}</td>
+                <td>Accepted</td>
+                <td>
+                    <form action="{{ url_for('revoke_access', request_id=approved_book.id) }}" method="POST">
+                        <button type="submit">Revoke</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

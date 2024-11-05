@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section Create Form</title>
+
+    <style>
+        /* Basic Reset and Full Height */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Header Style */
+        header {
+            width: 100%;
+            background-color: #0b121f;
+            padding: 15px 3%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .title-head {
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Login Form Style */
+        .login {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+            width: 400px;
+            box-sizing: border-box;
+        }
+
+        .login h2 {
+            margin: 0 0 30px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .login .section {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .login .section input {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            border: none;
+            border-bottom: 1px solid #fff;
+            outline: none;
+            background: transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .login .section input:focus {
+            border-bottom: 1px solid #03e9f4; /* Focus border color */
+        }
+
+        .login .section label {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            transition: opacity 0.3s ease;
+        }
+
+        .login .section input:focus + label,
+        .login .section input:valid + label {
+            opacity: 0; /* Hide label when focused or valid */
+        }
+
+        /* Button Style */
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #03e9f4;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0297c3; /* Darker on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+
+        /* Error Message Style */
+        .login .error {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .login {
+                width: 90%; /* Full width on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="title-head">Library Management System</div>
+    </header>
+    <div class="login">
+        <h2>Section Create</h2>
+        <form method="post">
+            <div class="section">
+                <input type="text" name="section_name" required="">
+                <label>Title</label>
+            </div>
+            <div class="section">
+                <input type="date" name="section_date_created" required="">
+                <label></label>
+            </div>
+            <div class="section">
+                <input type="text" name="section_description" required="">
+                <label>Description</label>
+            </div>
+            <div class="section">
+                <input type="number" name="section_max_books" required="">
+                <label>Maximum Books</label>
+            </div>
+            <button type="submit">Create</button>
+        </form>
+    </div>
+</body>
+</html>
